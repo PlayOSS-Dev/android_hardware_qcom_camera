@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-//#define LOG_NDEBUG 0
+#define LOG_NDEBUG 0
 #define LOG_TAG "CameraHAL"
 
 #include <CameraHardwareInterface.h>
@@ -38,7 +38,7 @@
 #include "libhardware/modules/gralloc/gralloc_priv.h"
 #endif
 
-//#define LOGV LOGI
+#define LOGV LOGI
 
 struct qcom_mdp_rect {
    uint32_t x; 
