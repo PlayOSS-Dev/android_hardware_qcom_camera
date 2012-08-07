@@ -17,16 +17,29 @@
 #define LOG_NDEBUG 0
 #define LOG_TAG "CameraHAL"
 
+#define MAX_CAMERAS_SUPPORTED 1
+#define GRALLOC_USAGE_PMEM_PRIVATE_ADSP GRALLOC_USAGE_PRIVATE_0
+
+#include <fcntl.h>
+#include <stdint.h>
+#include <string.h>
+#include <unistd.h>
+#include <dlfcn.h>
 #include <CameraHardwareInterface.h>
+
+#include <cutils/log.h>
+#include <ui/Overlay.h>
+#include <camera/CameraParameters.h>
+#include "CameraHardwareInterface.h"
+#include <cutils/properties.h>
+
 #include <hardware/hardware.h>
 #include <hardware/camera.h>
 #include <binder/IMemory.h>
-#include <fcntl.h>
 #include <linux/ioctl.h>
 #include <linux/msm_mdp.h>
 #include <ui/Rect.h>
 #include <ui/GraphicBufferMapper.h>
-#include <dlfcn.h>
 
 #define NO_ERROR 0
 #define GRALLOC_USAGE_PMEM_PRIVATE_ADSP GRALLOC_USAGE_PRIVATE_0
@@ -448,9 +461,9 @@ CameraHAL_FixupParams(android::CameraParameters &settings)
       "1280x720,800x480,768x432,720x480,640x480,576x432,480x320,384x288,352x288,320x240,240x160,176x144";
    const char *video_sizes = 
       "1280x720,800x480,720x480,640x480,352x288,320x240,176x144";
-   const char *preferred_size       = "640x480";
+   const char *preferred_size       = "320x240";
    const char *preview_frame_rates  = "30,27,24,15";
-   const char *preferred_frame_rate = "15";
+   const char *preferred_frame_rate = "30";
    const char *frame_rate_range     = "(15,30)";
 
    settings.set(android::CameraParameters::KEY_VIDEO_FRAME_FORMAT,
